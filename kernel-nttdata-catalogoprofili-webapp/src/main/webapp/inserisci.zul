@@ -1,0 +1,21 @@
+<?page title="Inserisci Utente" contentType="text/html;charset=UTF-8"?>
+<window title="Inserisci Utente" border="normal" width="400px" xmlns="http://www.zkoss.org/2005/zul">
+    <vlayout spacing="10px" style="padding: 20px;">
+        <label value="Modulo fittizio per censire un utente" style="font-weight:bold;" />
+        
+        <hlayout spacing="10px">
+            <label value="Nome:" width="80px"/>
+            <textbox width="200px"/>
+        </hlayout>
+        <hlayout spacing="10px">
+            <label value="Cognome:" width="80px"/>
+            <textbox width="200px"/>
+        </hlayout>
+        <hlayout spacing="10px">
+            <label value="Email:" width="80px"/>
+            <textbox width="200px"/>
+        </hlayout>
+        
+        <button label="Salva" onClick='alert("Utente salvato (simulato)!")' />
+    </vlayout>
+</window>

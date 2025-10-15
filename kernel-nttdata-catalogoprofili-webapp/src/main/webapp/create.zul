@@ -1,0 +1,182 @@
+<?page title="Crea profilo - Portale Profili" contentType="text/html;charset=UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul">
+	<style>
+		/* bordi e colori coerenti con la home */
+		.create-window { border: 2px solid #7b002c; border-radius:8px; padding:10px; box-sizing:border-box; }
+-		.create-title { font-family: "Segoe UI", Tahoma, Arial, sans-serif; font-weight:700; font-size:20px; color:#7b002c; margin-bottom:8px; }
++		/* barra del titolo: stesso rosso dei bordi, testo bianco */
++		.create-title {
++			display: block;
++			width: 100%;
++			box-sizing: border-box;
++			background-color: #7b002c; /* colore rosso dei bordi */
++			color: #ffffff; /* testo bianco */
++			font-family: "Segoe UI", Tahoma, Arial, sans-serif;
++			font-weight: 700;
++			font-size: 20px;
++			padding: 12px 14px;
++			margin: -6px -6px 12px -6px; /* estende la barra ai bordi della finestra */
++			border-radius: 6px 6px 0 0;
++		}
+		.form-row { margin-bottom:10px; }
+		.full-width { width:100% !important; box-sizing: border-box; }
+		.grid-label { width:220px; font-weight:600; vertical-align: middle; padding-right:8px; }
+		.checkbox-cell { display:flex; align-items:center; gap:8px; }
+		.content-area { height: calc(100vh - 120px); overflow:auto; padding-right:8px; } /* mantiene la pagina a tutta altezza con scroll se necessario */
+	</style>
+
+	<window title="Crea nuovo profilo" border="normal" width="100%" height="100%"
+			apply="org.zkoss.bind.BindComposer"
+			viewModel="@id('vm') @init('viewmodel.CreateProfileViewModel')"
+			sclass="create-window">
+
+ 		<!-- Titolo stilizzato -->
+ 		<label value="Crea nuovo profilo" sclass="create-title" />
+
+		<!-- area che occupa tutta la pagina e scrolla se necessario -->
+		<vbox spacing="8px" style="padding:12px;" vflex="1" sclass="content-area">
+			<hbox spacing="10px" class="form-row" width="100%">
+				<intbox id="idProfilo" value="@bind(vm.profile.idProfilo)" placeholder="ID profilo" style="width:140px;" />
+				<textbox value="@bind(vm.profile.nomeAbilitazione)" class="full-width" placeholder="Nome abilitazione"/>
+			</hbox>
+
+			<!-- Usare una griglia con etichette a sinistra e controlli a destra, controlli full-width -->
+			<grid vflex="1">
+				<rows>
+					<row>
+						<label value="Sistema target" class="grid-label"/>
+						<textbox value="@bind(vm.profile.sistemaTarget)" class="full-width" />
+					</row>
+
+					<row>
+						<label value="Descrizione breve" class="grid-label"/>
+						<textbox value="@bind(vm.profile.descrizioneBreve)" class="full-width" />
+					</row>
+
+					<row>
+						<label value="Descrizione estesa" class="grid-label"/>
+						<textbox value="@bind(vm.profile.descrizioneEstesa)" multiline="true" class="full-width" rows="6"/>
+					</row>
+
+					<row>
+						<label value="Aggregato" class="grid-label"/>
+						<textbox value="@bind(vm.profile.aggregato)" class="full-width" />
+					</row>
+
+					<row>
+						<label value="Tipologia" class="grid-label"/>
+						<textbox value="@bind(vm.profile.tipologia)" class="full-width" />
+					</row>
+
+					<row>
+						<label value="APM" class="grid-label"/>
+						<textbox value="@bind(vm.profile.apm)" class="full-width" />
+					</row>
+
+					<row>
+						<label value="Grants" class="grid-label"/>
+						<div class="checkbox-cell">
+							<checkbox checked="@bind(vm.profile.grant)" />
+						</div>
+					</row>
+
+					<row>
+						<label value="Gadis" class="grid-label"/>
+						<vbox>
+							<hbox style="display:flex; gap:8px; align-items:center;">
+								<checkbox checked="@bind(vm.profile.gadis)"/>
+								<label value="Gadis tecnologia" style="margin-left:6px;"/>
+								<textbox value="@bind(vm.profile.gadisTecnologia)" class="full-width" style="max-width:420px;" />
+							</hbox>
+							<hbox style="margin-top:6px; gap:12px; align-items:center;">
+								<label value="Gadis approvatore" />
+								<checkbox checked="@bind(vm.profile.gadisApprov)"/>
+							</hbox>
+						</vbox>
+					</row>
+
+					<row>
+						<label value="ATS" class="grid-label"/>
+						<textbox value="@bind(vm.profile.ats)" class="full-width" />
+					</row>
+
+					<row>
+						<label value="Ambiente" class="grid-label"/>
+						<div style="display:flex; gap:12px; align-items:center;">
+							<label value="Prod"/>
+							<checkbox checked="@bind(vm.profile.ambienteProd)"/>
+							<label value="NPE" style="margin-left:12px;"/>
+							<checkbox checked="@bind(vm.profile.ambienteNpe)"/>
+						</div>
+					</row>
+
+					<row>
+						<label value="Azienda" class="grid-label"/>
+						<textbox value="@bind(vm.profile.azienda)" class="full-width" />
+					</row>
+
+					<row>
+						<label value="Impatti su cono visibilità" class="grid-label"/>
+						<textbox value="@bind(vm.profile.impattiSuConoVisibilita)" multiline="true" class="full-width" rows="3"/>
+					</row>
+
+					<row>
+						<label value="Formazione / Licenze" class="grid-label"/>
+						<div style="display:flex; gap:12px; align-items:center;">
+							<checkbox checked="@bind(vm.profile.formazione)"/>
+							<label value="Licenze"/>
+							<checkbox checked="@bind(vm.profile.licenze)"/>
+							<label value="Licenza resp" style="margin-left:8px;"/>
+							<textbox value="@bind(vm.profile.licenzaResp)" style="width:300px;" />
+						</div>
+					</row>
+
+					<row>
+						<label value="AD Personam / Ricertificabile" class="grid-label"/>
+						<div style="display:flex; gap:12px; align-items:center;">
+							<checkbox checked="@bind(vm.profile.adPersonam)"/>
+							<label value="Ricertificabile" style="margin-left:8px;"/>
+							<textbox value="@bind(vm.profile.ricertificabile)" style="width:300px;" />
+						</div>
+					</row>
+
+					<row>
+						<label value="WF / Toxic / Add" class="grid-label"/>
+						<div style="display:flex; gap:12px; align-items:center;">
+							<checkbox checked="@bind(vm.profile.wfAssegnazioneAp)"/><label value="WF Assegnazione AP"/>
+							<checkbox checked="@bind(vm.profile.toxicProfile)"/><label value="Toxic Profile"/>
+							<checkbox checked="@bind(vm.profile.addProfile)"/><label value="Add Profile"/>
+						</div>
+					</row>
+
+					<row>
+						<label value="Utenti impattati" class="grid-label"/>
+						<intbox value="@bind(vm.profile.utentiImpattati)" style="width:160px;" />
+					</row>
+
+					<row>
+						<label value="Funzioni di business" class="grid-label"/>
+						<textbox value="@bind(vm.profile.funzioniDiBusiness)" multiline="true" class="full-width" rows="4"/>
+					</row>
+
+					<row>
+						<label value="Verificato IT / Session ID" class="grid-label"/>
+						<div style="display:flex; gap:12px; align-items:center; width:100%;">
+							<div style="display:flex; align-items:center; gap:8px;">
+								<checkbox checked="@bind(vm.profile.verificatoIt)"/><label value="Verificato IT"/>
+							</div>
+							<intbox value="@bind(vm.profile.sessionId)" style="width:160px; margin-left:12px;"/>
+						</div>
+					</row>
+
+				</rows>
+			</grid>
+
+			<hbox spacing="10px" style="margin-top:8px; justify-content:flex-end;">
+				<button label="Salva" onClick="@command('save')" />
+				<button label="Annulla" onClick="@command('cancel')" />
+			</hbox>
+		</vbox>
+
+ 	</window>
+</zk>

@@ -1,0 +1,13 @@
+<Context>
+    <!-- Resource JNDI per PostgreSQL: sostituisci username/password con i valori reali -->
+    <Resource name="jdbc/PortaleProfiliDS"
+              auth="Container"
+              type="javax.sql.DataSource"
+              username="postgres"
+              password="password"
+              driverClassName="org.postgresql.Driver"
+              url="jdbc:postgresql://localhost:5432/Portale_Profili"
+              maxTotal="20"
+              maxIdle="10"
+              maxWaitMillis="10000"/>
+</Context>

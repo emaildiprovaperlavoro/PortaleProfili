@@ -1,0 +1,69 @@
+<?page title="Home - Monte dei Paschi di Siena" contentType="text/html;charset=UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul">
+
+    <style>
+        .navbar {
+            background-color: #7b002c;
+            color: white;
+            height: 60px;
+            padding: 0 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .navbar img {
+            height: 45px;
+        }
+        .menu a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: 500;
+        }
+        .menu a:hover {
+            text-decoration: underline;
+        }
+        .content {
+            text-align: center;
+            margin-top: 50px;
+        }
+        .footer {
+            background-color: #f3f3f3;
+            text-align: center;
+            color: #555;
+            font-size: 12px;
+            padding: 20px;
+            margin-top: 80px;
+            border-top: 1px solid #ddd;
+        }
+    </style>
+
+    <vlayout width="100%" height="100%" spacing="0">
+
+        <!-- Navbar -->
+        <div sclass="navbar">
+            <hbox>
+                <image src="https://upload.wikimedia.org/wikipedia/it/thumb/5/58/Monte_dei_Paschi_di_Siena_logo.svg/525px-Monte_dei_Paschi_di_Siena_logo.svg.png?20230221202958" />
+            </hbox>
+            <hbox sclass="menu">
+                <a href="#">Home</a>
+                <a href="#">Servizi</a>
+                <a href="#">Contatti</a>
+            </hbox>
+        </div>
+
+        <!-- Contenuto principale -->
+        <div sclass="content">
+            <label value="Benvenuto nel Portale Monte dei Paschi di Siena" style="font-size:18px; font-weight:bold; color:#333;" />
+            <separator height="20px"/>
+            <label value="Questa è una versione semplificata della home.zul di esempio." style="color:#666;" />
+        </div>
+
+        <!-- Footer -->
+        <div sclass="footer">
+            © MontepaschiSiena ; 2025 Monte dei Paschi di Siena – Tutti i diritti riservati
+        </div>
+
+    </vlayout>
+
+</zk>

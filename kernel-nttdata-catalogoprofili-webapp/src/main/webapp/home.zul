@@ -1,0 +1,206 @@
+<?page title="Home - Monte dei Paschi di Siena" contentType="text/html;charset=UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul">
+
+	<style>
+		.navbar { background-color: #7b002c; color: white; height: 60px;
+		padding: 0 30px; display: flex; align-items: center;
+		justify-content: space-between; } .navbar img { height: 45px; }
+		.menu a { color: white; text-decoration: none; margin-left:
+		20px; font-weight: 500; } .menu a:hover { text-decoration:
+		underline; }
+
+		.container { display: flex; height: calc(100vh - 120px); }
+
+		.sidebar { width: 220px; background-color: #f7f7f7;
+		border-right: 1px solid #ddd; padding: 15px; }
+
+		.sidebar button { width: 100%; margin-bottom: 10px;
+		background-color: #7b002c; color: white; border: none; padding:
+		8px; border-radius: 5px; cursor: pointer; }
+
+		.sidebar button:hover { background-color: #9b1542; }
+
+		.main { flex-grow: 1; padding: 30px; }
+
+		.footer { background-color: #f3f3f3; text-align: center; color:
+		#555; font-size: 12px; padding: 20px; border-top: 1px solid
+		#ddd; }
+
+		/* wrapper per scroll orizzontale della tabella */
+		.table-scroll { overflow-x: auto; overflow-y: hidden; padding-bottom:8px; }
+
+		/* grid auto: forza una larghezza minima e layout fisso per allineamento colonne/celle */
+		.grid-auto { width: auto !important; min-width: 1200px; }
+		.grid-auto table { table-layout: fixed !important; width:100% !important; }
+
+		/* permettere il wrapping e il word-break nelle celle e intestazioni */
+		.grid-auto th, .grid-auto td {
+			white-space: normal !important;
+			word-break: break-word !important;
+			overflow-wrap: anywhere !important;
+			vertical-align: top;
+			padding: 8px 10px;
+		}
+
+		/* larghezze esplicite per colonne (aggiusta i px se vuoi più/meno spazio) */
+		.col-id { width:70px; }
+		.col-large { width:300px; }
+		.col-medium { width:180px; }
+		.col-small { width:120px; }
+
+		/* rendi i contenuti delle celle block-level per occupare tutta la cella */
+		.grid-auto td > label, .grid-auto td > div { display:block; width:100%; box-sizing:border-box; }
+
+		/* mantieni la colonna azioni senza wrapping */
+		.grid-auto .col-actions { white-space:nowrap; }
+
+		/* wrapper per le scrollbars sincronizzate (top e bottom) */
+		.scroll-bar-wrap { overflow-x:auto; overflow-y:hidden; height:16px; }
+		.scroll-bar-wrap .inner { height:1px; }
+		/* migliora lo scorrimento su dispositivi touch */
+		.table-scroll, .scroll-bar-wrap { -webkit-overflow-scrolling: touch; scroll-behavior: smooth; }
+	</style>
+
+	<window width="100%" height="100%"
+		viewModel="@id('vm') @init('viewmodel.HomeViewModel')"
+		apply="org.zkoss.bind.BindComposer">
+
+		<!-- Navbar -->
+		<div sclass="navbar">
+			<hbox>
+				<!-- Logo (servito dalla servlet /logo) -->
+				<image id="logoImg" src="${pageContext.request.contextPath}/logo" />
+			</hbox>
+			<hbox sclass="menu">
+				<a href="#">Home</a>
+				<a href="#">Servizi</a>
+				<a href="#">Contatti</a>
+			</hbox>
+		</div>
+
+		<!-- Contenuto -->
+		<hlayout width="100%" height="100%" spacing="0">
+
+			<!-- Sidebar -->
+			<vlayout width="200px" spacing="10px" sclass="sidebar">
+				<!-- Link per aprire la pagina di creazione -->
+				<a href="create.zul" style="display:block; text-align:center; background:#7b002c; color:#fff; padding:8px; border-radius:5px; text-decoration:none;">Crea nuovo profilo</a>
+				<!-- pulsanti Inserisci/Modifica/Elimina rimossi: usa create.zul / edit.zul per operazioni -->
+				<button label="Ricarica" onClick="@command('loadProfiles')" />
+			</vlayout>
+
+			<!-- Area principale -->
+			<vbox sclass="main" width="100%" spacing="10px">
+				<label value="@load(vm.messaggio)"
+					style="font-size:16px; color:#333;" />
+
+				<!-- Top scrollbar sincronizzata -->
+				<div id="topScrollWrap" class="scroll-bar-wrap"><div id="topInner" class="inner" style="width:100px;"></div></div>
+
+				<!-- Grid list: avvolta per abilitare scorrimento orizzontale -->
+				<div class="table-scroll" id="tableScroll">
+					<grid model="@bind(vm.profiles)" emptyMessage="Nessun record" mold="paging" pageSize="15"
+						  selection="@bind(vm.selectedProfile)" sclass="grid-auto" style="width:auto;">
+						<columns>
+							<column label="ID" sclass="col-id"/>
+							<column label="Nome abilitazione" sclass="col-large"/>
+							<column label="Sistema" sclass="col-medium"/>
+							<column label="Tipologia" sclass="col-medium"/>
+							<column label="Azienda" sclass="col-large"/>
+							<column label="Grants" sclass="col-small"/>
+							<column label="Gadis" sclass="col-small"/>
+							<column label="Gadis Tecnologia" sclass="col-medium"/>
+							<column label="Ambiente Prod" sclass="col-small"/>
+							<column label="Ambiente NPE" sclass="col-small"/>
+							<column label="Formazione" sclass="col-small"/>
+							<column label="Licenze" sclass="col-small"/>
+							<column label="Utenti Impattati" sclass="col-small"/>
+							<column label="Session ID" sclass="col-small"/>
+							<column label="Azioni" sclass="col-actions"/>
+						</columns>
+						<template name="model">
+							<row>
+								<label value="@load(each.idProfilo)"/>
+								<label value="@load(each.nomeAbilitazione)"/>
+								<label value="@load(each.sistemaTarget)"/>
+								<label value="@load(each.tipologia)"/>
+								<label value="@load(each.azienda)"/>
+								<label value="@load(each.grant)"/>
+								<label value="@load(each.gadis)"/>
+								<label value="@load(each.gadisTecnologia)"/>
+								<label value="@load(each.ambienteProd)"/>
+								<label value="@load(each.ambienteNpe)"/>
+								<label value="@load(each.formazione)"/>
+								<label value="@load(each.licenze)"/>
+								<label value="@load(each.utentiImpattati)"/>
+								<label value="@load(each.sessionId)"/>
+								<hbox spacing="6px">
+									<button label="Modifica" onClick="@command('openEdit', id=each.idProfilo)" />
+									<button label="Elimina" onClick="@command('deleteById', id=each.idProfilo)" style="background:#d32f2f;color:#fff;border-radius:4px;padding:4px 8px;" />
+								</hbox>
+							</row>
+						</template>
+					</grid>
+				</div>
+
+				<!-- Bottom scrollbar sincronizzata: contiene un inner div la cui larghezza viene impostata dinamicamente -->
+				<div id="bottomScrollWrap" class="scroll-bar-wrap" style="margin-top:6px;">
+					<div id="bottomInner" class="inner" style="width:100px;"></div>
+				</div>
+
+				<!-- Script per sincronizzare lo scroll orizzontale -->
+				<script><![CDATA[
+					(function(){
+						function setupSync(){
+							var tableScroll = document.getElementById('tableScroll');
+							var topWrap = document.getElementById('topScrollWrap');
+							var topInner = document.getElementById('topInner');
+							var bottomWrap = document.getElementById('bottomScrollWrap');
+							var bottomInner = document.getElementById('bottomInner');
+							if(!tableScroll || !bottomWrap || !bottomInner) return;
+							// aggiorna la larghezza dell'inner in base al contenuto scrollabile della tabella
+							function updateWidth(){
+								// il contenuto scrollabile è il primo elemento scrollabile dentro tableScroll
+								var scrollContent = tableScroll.querySelector('.z-grid') || tableScroll.firstElementChild;
+								var scrollWidth = scrollContent ? scrollContent.scrollWidth : tableScroll.scrollWidth;
+								// imposta una minima larghezza per evitare zero
+								if(!scrollWidth || scrollWidth < 100) scrollWidth = 100;
+								bottomInner.style.width = scrollWidth + 'px';
+								if(topInner) topInner.style.width = scrollWidth + 'px';
+							}
+							// sincronizza gli scrollLeft
+							tableScroll.addEventListener('scroll', function(){ 
+								if(topWrap) topWrap.scrollLeft = tableScroll.scrollLeft; 
+								bottomWrap.scrollLeft = tableScroll.scrollLeft; 
+							});
+							if(topWrap){
+								topWrap.addEventListener('scroll', function(){ tableScroll.scrollLeft = topWrap.scrollLeft; bottomWrap.scrollLeft = topWrap.scrollLeft; });
+							}
+							bottomWrap.addEventListener('scroll', function(){ 
+								tableScroll.scrollLeft = bottomWrap.scrollLeft; 
+								if(topWrap) topWrap.scrollLeft = bottomWrap.scrollLeft; 
+							});
+							// aggiorna su resize o dopo caricamento/ripubblicazione
+							window.addEventListener('resize', updateWidth);
+							// una chiamata ritardata per assicurare che il DOM e la grid siano renderizzati
+							setTimeout(updateWidth, 300);
+							// osserva cambiamenti nel contenuto (es. paginazione) per aggiornare la larghezza
+							if(window.MutationObserver){
+								var obs = new MutationObserver(function(){ setTimeout(updateWidth, 100); });
+								obs.observe(tableScroll, { childList:true, subtree:true, characterData:true });
+							}
+						}
+						if (document.readyState === 'complete' || document.readyState === 'interactive') {
+							setupSync();
+						} else {
+							document.addEventListener('DOMContentLoaded', setupSync);
+						}
+					})();
+				]]></script>
+
+			</vbox>
+		</hlayout>
+
+	</window>
+
+</zk>
